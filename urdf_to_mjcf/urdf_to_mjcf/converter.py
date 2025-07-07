@@ -3,6 +3,9 @@
 import os
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
+import trimesh
+import numpy as np
+from scipy.spatial.transform import Rotation as R
 
 
 def parse_urdf(urdf_path):
@@ -18,7 +21,25 @@ def build_urdf_maps(urdf_root):
     for joint in urdf_root.findall("joint"):
         parent = joint.find("parent").attrib["link"]
         child = joint.find("child").attrib["link"]
-        joints[child] = joint
+
+        joint_type = joint.attrib.get("type", "revolute")
+        joint_name = joint.attrib["name"]
+
+        limit_elem = joint.find("limit")
+        joint_limits = {}
+        if limit_elem is not None:
+            if "lower" in limit_elem.attrib:
+                joint_limits["lower"] = float(limit_elem.attrib["lower"])
+            if "upper" in limit_elem.attrib:
+                joint_limits["upper"] = float(limit_elem.attrib["upper"])
+
+        joints[child] = {
+            "name": joint_name,
+            "type": joint_type,
+            "element": joint,  # keep full XML for other use
+            "limit": joint_limits,
+        }
+
         children.setdefault(parent, []).append(child)
 
     return links, joints, children
@@ -43,82 +64,241 @@ def enforce_valid_inertia(ixx, iyy, izz):
     return f"{ixx:.8f} {iyy:.8f} {izz:.8f}"
 
 
+def compute_inertial_from_stl(stl_path: str, target_mass: float):
+    mesh = trimesh.load(stl_path)
+    center_of_mass = mesh.center_mass
+    inertia_tensor = mesh.moment_inertia
+    eigvals, eigvecs = np.linalg.eigh(inertia_tensor)
+    scaled_inertia = eigvals * target_mass
+
+    T = np.eye(4)
+    T[:3, :3] = eigvecs
+    quat = trimesh.transformations.quaternion_from_matrix(T)
+
+    pos_str = f"{center_of_mass[0]:.8f} {center_of_mass[1]:.8f} {center_of_mass[2]:.8f}"
+    quat_str = f"{quat[0]:.8f} {quat[1]:.8f} {quat[2]:.8f} {quat[3]:.8f}"
+    diaginertia_str = (
+        f"{scaled_inertia[0]:.8e} {scaled_inertia[1]:.8e} {scaled_inertia[2]:.8e}"
+    )
+    return pos_str, quat_str, diaginertia_str
+
+
 def build_mjcf_body(link_name, links, joints, children):
+    if link_name not in links:
+        print(f"[ERROR] Link '{link_name}' not found in URDF links.")
+        return None
+
     link = links[link_name]
     body = ET.Element("body", name=link_name)
 
-    # Set body.pos from joint origin (transform from parent)
-    joint = joints.get(link_name)
-    if joint is not None:
-        origin = joint.find("origin")
-        if origin is not None and "xyz" in origin.attrib:
-            body.set("pos", origin.attrib["xyz"])
+    # Get joint info and XML element
+    joint_info = joints.get(link_name)
+    joint_elem = joint_info["element"] if joint_info else None
+
+    # Set body position from joint origin
+    if joint_elem is not None:
+        origin = joint_elem.find("origin")
+        if origin is not None:
+            pos = origin.attrib.get("xyz", "0 0 0")
+            rpy = origin.attrib.get("rpy", "0 0 0")
+
+            # Convert RPY to quaternion
+            roll, pitch, yaw = map(float, rpy.split())
+            rot = R.from_euler("xyz", [roll, pitch, yaw])
+            quat = rot.as_quat()  # [x, y, z, w]
+
+            # MuJoCo wants [w, x, y, z]
+            quat_str = f"{quat[3]} {quat[0]} {quat[1]} {quat[2]}"
+            body.set("pos", pos)
+            body.set("quat", quat_str)
         else:
             body.set("pos", "0 0 0")
+            body.set("quat", "1 0 0 0")
     else:
         body.set("pos", "0 0 0")
+        body.set("quat", "1 0 0 0")
 
-    # Inertial
+    # -------------------------------
+    # Inertial (prefer STL if available)
+    # -------------------------------
     inertial = link.find("inertial")
+    visual = link.find("visual")
     if inertial is not None:
         origin = inertial.find("origin")
         pos = origin.attrib.get("xyz", "0 0 0") if origin is not None else "0 0 0"
         mass = inertial.find("mass").attrib["value"]
         inertia = inertial.find("inertia")
         ixx, iyy, izz = (
-            inertia.attrib.get("ixx", "0"),
-            inertia.attrib.get("iyy", "0"),
-            inertia.attrib.get("izz", "0"),
+            inertia.attrib["ixx"],
+            inertia.attrib["iyy"],
+            inertia.attrib["izz"],
         )
-        diaginertia = enforce_valid_inertia(ixx, iyy, izz)
-        ET.SubElement(body, "inertial", pos=pos, mass=mass, diaginertia=diaginertia)
 
-    # Visual → geom
-    visual = link.find("visual")
+        mesh_tag = None
+        mesh_file = ""
+        mesh_path = ""
+
+        if visual is not None:
+            mesh_tag = visual.find("geometry/mesh")
+            if mesh_tag is not None:
+                mesh_file = os.path.basename(mesh_tag.attrib["filename"])
+                mesh_path = os.path.join(
+                    "/home/hv/robot-model-package-formatter/urdf_to_mjcf/tests",
+                    mesh_file,
+                )
+
+        if mesh_tag is not None and os.path.exists(mesh_path):
+            try:
+                pos_str, quat_str, diaginertia_str = compute_inertial_from_stl(
+                    mesh_path, float(mass)
+                )
+                print(f"the diaginertia_str is: {diaginertia_str}")
+                diaginertia_vals = [float(v) for v in diaginertia_str.split()]
+                mass, diaginertia_str = enforce_minimum_inertial_values(
+                    mass, diaginertia_vals
+                )
+
+                ET.SubElement(
+                    body,
+                    "inertial",
+                    pos=pos_str,
+                    quat=quat_str,
+                    mass=mass,
+                    diaginertia=diaginertia_str,
+                )
+            except Exception as e:
+                print(f"[ERROR] Inertial computation failed for {link_name}: {e}")
+                diaginertia = enforce_valid_inertia(ixx, iyy, izz)
+                ET.SubElement(
+                    body, "inertial", pos=pos, mass=mass, diaginertia=diaginertia
+                )
+        else:
+            print(f"[WARNING] Mesh not found: {mesh_path} — using URDF inertia")
+            diaginertia = enforce_valid_inertia(ixx, iyy, izz)
+            ET.SubElement(body, "inertial", pos=pos, mass=mass, diaginertia=diaginertia)
+
+    # -------------------------------
+    # Joint
+    # -------------------------------
+    if joint_elem is not None:
+        axis_tag = joint_elem.find("axis")
+        axis = axis_tag.attrib.get("xyz", "0 0 1") if axis_tag is not None else "0 0 1"
+
+        joint_pos = "0 0 0"  # MuJoCo assumes it's at the child frame origin
+
+        joint_type = joint_elem.attrib["type"]
+        if joint_type == "revolute" or joint_type == "continuous":
+            mjcf_type = "hinge"
+        elif joint_type == "prismatic":
+            mjcf_type = "slide"
+        elif joint_type == "fixed":
+            mjcf_type = None  # No joint needed
+        else:
+            print(f"[WARNING] Unsupported joint type: {joint_type}")
+            mjcf_type = None
+
+        if mjcf_type:
+            joint_attribs = {
+                "name": joint_elem.attrib["name"],
+                "type": mjcf_type,
+                "pos": joint_pos,
+                "axis": axis,
+            }
+
+            limit = joint_elem.find("limit")
+            if (
+                limit is not None
+                and "lower" in limit.attrib
+                and "upper" in limit.attrib
+            ):
+                joint_attribs["limited"] = "true"
+                joint_attribs["range"] = (
+                    f"{limit.attrib['lower']} {limit.attrib['upper']}"
+                )
+                joint_attribs["damping"] = "100"  # Default damping value
+
+            body.append(ET.Element("joint", joint_attribs))
+
+    # -------------------------------
+    # Geom from visual mesh
+    # -------------------------------
     if visual is not None:
         mesh_tag = visual.find("geometry/mesh")
         if mesh_tag is not None:
             mesh_file = os.path.basename(mesh_tag.attrib["filename"])
             mesh_name = os.path.splitext(mesh_file)[0]
+
             origin = visual.find("origin")
             pos = origin.attrib.get("xyz", "0 0 0") if origin is not None else "0 0 0"
-            rgba_tag = visual.find("material/color")
-            rgba = rgba_tag.attrib["rgba"] if rgba_tag is not None else "0.7 0.7 0.7 1"
+
+            material = visual.find("material")
+            color_tag = material.find("color") if material is not None else None
+            rgba = (
+                color_tag.attrib.get("rgba", "0.7 0.7 0.7 1")
+                if color_tag is not None
+                else "0.7 0.7 0.7 1"
+            )
+
             ET.SubElement(body, "geom", type="mesh", mesh=mesh_name, pos=pos, rgba=rgba)
 
-    # Joint
-    if joint is not None:
-        axis_tag = joint.find("axis")
-        axis = axis_tag.attrib.get("xyz", "0 0 1") if axis_tag is not None else "0 0 1"
-
-        joint_origin = joint.find("origin")
-        joint_pos = "0 0 0"  # Local joint position in the child frame
-        joint_type = joint.attrib["type"]
-        mjcf_type = (
-            "hinge"
-            if joint_type in ["revolute", "continuous"]
-            else "slide" if joint_type == "prismatic" else "free"
-        )
-        limit = joint.find("limit")
-        lower = limit.attrib.get("lower", "0") if limit is not None else "0"
-        upper = limit.attrib.get("upper", "0") if limit is not None else "0"
-
-        ET.SubElement(
-            body,
-            "joint",
-            name=joint.attrib["name"],
-            type=mjcf_type,
-            pos=joint_pos,
-            axis=axis,
-            limited="true",
-            range=f"{lower} {upper}",
-        )
-
-    # Recursively add children
+    # -------------------------------
+    # Recursively add child bodies
+    # -------------------------------
     for child in children.get(link_name, []):
-        body.append(build_mjcf_body(child, links, joints, children))
+        child_body = build_mjcf_body(child, links, joints, children)
+        if child_body is not None:
+            body.append(child_body)
+        else:
+            print(f"[WARNING] Skipping child link: {child} (build failed)")
 
     return body
+
+
+def enforce_minimum_inertial_values(mass, diaginertia, min_mass=1e-5, min_inertia=1e-8):
+    # Ensure mass is float
+    mass = float(mass)
+    mass = max(mass, min_mass)
+
+    # Ensure each inertia component is float
+    diaginertia = [max(float(i), min_inertia) for i in diaginertia]
+    diaginertia_str = " ".join(f"{i:.8e}" for i in diaginertia)
+    print(f"the remnapped diaginertia is: {diaginertia}")
+    return f"{mass:.8f}", diaginertia_str
+
+
+def add_actuators_auto(mjcf_root, joints):
+    print("[INFO] Adding actuators for all actuated joints...")
+    # Create actuator section
+    print(f"the joints are: {joints}")
+    actuator = ET.SubElement(mjcf_root, "actuator")
+
+    for joint_info in joints.values():
+        joint_type = joint_info.get("type", "hinge")
+        joint_name = joint_info.get("name")  # Actual joint name
+
+        # # Only handle actuated joint types
+        if joint_type not in ("hinge", "slide", "revolute", "prismatic"):
+            continue
+
+        # Get control range from joint limits
+        limit = joint_info.get("limit", {})
+        lower = limit.get("lower")
+        upper = limit.get("upper")
+        print(
+            f"Adding actuator for joint: {joint_name}, type: {joint_type}, limits: {lower}, {upper}"
+        )
+        ET.SubElement(
+            actuator,
+            "position",
+            name=joint_name,
+            joint=joint_name,
+            ctrllimited="true",
+            ctrlrange=f"{lower} {upper}",
+            kp="1000",
+            forcelimited="true",
+            forcerange="-1000 1000",
+            user="1",
+        )
 
 
 def convert_urdf_to_mjcf(urdf_path: str, output_path: str) -> None:
@@ -149,7 +329,12 @@ def convert_urdf_to_mjcf(urdf_path: str, output_path: str) -> None:
 
     # Main worldbody
     worldbody = ET.SubElement(mjcf, "worldbody")
-    worldbody.append(build_mjcf_body(root_link, links, joints, children))
+    body_elem = build_mjcf_body(root_link, links, joints, children)
+    if body_elem is not None:
+        worldbody.append(body_elem)
+    else:
+        raise RuntimeError(f"Failed to build body for root link: {root_link}")
+    add_actuators_auto(mjcf, joints)
 
     # Pretty-print the XML
     rough_string = ET.tostring(mjcf, encoding="utf-8")
