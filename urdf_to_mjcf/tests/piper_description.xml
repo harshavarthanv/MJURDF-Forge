@@ -4,74 +4,239 @@
   <option gravity="0 0 -9.81"/>
   <asset>
     <mesh name="base_link" file="base_link.STL"/>
-    <mesh name="link1" file="link1.STL"/>
-    <mesh name="link2" file="link2.STL"/>
-    <mesh name="link3" file="link3.STL"/>
-    <mesh name="link4" file="link4.STL"/>
-    <mesh name="link5" file="link5.STL"/>
-    <mesh name="link6" file="link6.STL"/>
-    <mesh name="gripper_base" file="gripper_base.STL"/>
-    <mesh name="link7" file="link7.STL"/>
-    <mesh name="link8" file="link8.STL"/>
+    <mesh name="frame_link" file="frame_link.STL"/>
+    <mesh name="t_Link" file="t_Link.STL"/>
+    <mesh name="thumb_metacarpol_link" file="thumb_metacarpol_link.STL"/>
+    <mesh name="thumb_proximal_link" file="thumb_proximal_link.STL"/>
+    <mesh name="thumb_distal_link" file="thumb_distal_link.STL"/>
+    <mesh name="thumb_tip_link" file="thumb_tip_link.STL"/>
+    <mesh name="index_f_link" file="index_f_link.STL"/>
+    <mesh name="index_proximal_link" file="index_proximal_link.STL"/>
+    <mesh name="index_middle_link" file="index_middle_link.STL"/>
+    <mesh name="index_distal_link" file="index_distal_link.STL"/>
+    <mesh name="index_tip_link" file="index_tip_link.STL"/>
+    <mesh name="middle_f_link" file="middle_f_link.STL"/>
+    <mesh name="middle_proximal_link" file="middle_proximal_link.STL"/>
+    <mesh name="middle_middle_link" file="middle_middle_link.STL"/>
+    <mesh name="middle_distal_link" file="middle_distal_link.STL"/>
+    <mesh name="middle_tip_link" file="middle_tip_link.STL"/>
+    <mesh name="ring_f_link" file="ring_f_link.STL"/>
+    <mesh name="ring_proximal_link" file="ring_proximal_link.STL"/>
+    <mesh name="ring_middle_link" file="ring_middle_link.STL"/>
+    <mesh name="ring_distal_link" file="ring_distal_link.STL"/>
+    <mesh name="ring_tip_link" file="ring_tip_link.STL"/>
+    <mesh name="pinky_f_link" file="pinky_f_link.STL"/>
+    <mesh name="pinky_proximal_link" file="pinky_proximal_link.STL"/>
+    <mesh name="pinky_middle_link" file="pinky_middle_link.STL"/>
+    <mesh name="pinky_distal_link" file="pinky_distal_link.STL"/>
+    <mesh name="pinky_tip_link" file="pinky_tip_link.STL"/>
+    <mesh name="index_prismatic1_link" file="index_prismatic1_link.STL"/>
+    <mesh name="index_prismatic2_link" file="index_prismatic2_link.STL"/>
+    <mesh name="middle_prismatic1_link" file="middle_prismatic1_link.STL"/>
+    <mesh name="middle_prismatic2_link" file="middle_prismatic2_link.STL"/>
+    <mesh name="ring_prismatic1_link" file="ring_prismatic1_link.STL"/>
+    <mesh name="ring_prismatic2_link" file="ring_prismatic2_link.STL"/>
+    <mesh name="pinky_prismatic1_link" file="pinky_prismatic1_link.STL"/>
+    <mesh name="pinky_prismatic2_link" file="pinky_prismatic2_link.STL"/>
   </asset>
   <worldbody>
-    <body name="base_link" pos="0 0 0" quat="1 0 0 0">
-      <inertial pos="-0.00480206 0.00002540 0.04147714" quat="0.49612377 0.79766720 0.34280646 0.00848377" mass="1.02000000" diaginertia="3.15241283e-07 3.27083834e-07 3.78990316e-07"/>
-      <geom type="mesh" mesh="base_link" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-      <body name="link1" pos="0 0 0.123" quat="1.0 0.0 0.0 0.0">
-        <inertial pos="0.00012728 0.00010752 -0.00440612" quat="0.50476857 0.49689021 -0.52762922 -0.46895225" mass="0.71000000" diaginertia="8.81576851e-08 9.72849782e-08 1.08186244e-07"/>
-        <joint name="joint1" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-2.618 2.168" damping="100"/>
-        <geom type="mesh" mesh="link1" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-        <body name="link2" pos="0 0 0" quat="0.0444804689836725 -0.04448548999591981 -0.7057073495761343 -0.7057050841626714">
-          <inertial pos="0.19852931 -0.01096138 0.00143167" quat="0.68812893 -0.72553303 -0.00437240 0.00782814" mass="1.17000000" diaginertia="5.44669787e-07 6.13592785e-06 6.25402101e-06"/>
-          <joint name="joint2" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="0 3.14" damping="100"/>
-          <geom type="mesh" mesh="link2" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-          <body name="link3" pos="0.28503 0 0" quat="0.6239962203797329 0.0 0.0 -0.7814273587172437">
-            <inertial pos="-0.02027384 -0.13376719 -0.00045770" quat="0.36039182 0.30404860 -0.68573906 -0.55446743" mass="0.50000000" diaginertia="5.27882393e-08 5.36849797e-07 5.47207770e-07"/>
-            <joint name="joint3" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-2.967 0" damping="100"/>
-            <geom type="mesh" mesh="link3" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-            <body name="link4" pos="-0.021984 -0.25075 0" quat="0.7071054825112363 0.7071080798594735 0.0 0.0">
-              <inertial pos="-0.00009556 0.00088471 -0.00498951" quat="0.53711259 0.44040942 0.66279717 -0.27973117" mass="0.38000000" diaginertia="2.08677819e-08 2.49352642e-08 2.52796881e-08"/>
-              <joint name="joint4" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-1.745 1.745" damping="100"/>
-              <geom type="mesh" mesh="link4" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-              <body name="link5" pos="0 0 0" quat="0.7071054825112363 -0.7071080798594735 0.0 0.0">
-                <inertial pos="-0.00004509 -0.05662875 -0.00372969" quat="0.69434840 -0.12578520 0.15496507 0.69140741" mass="0.38300000" diaginertia="2.11060364e-08 4.49980658e-08 4.63889822e-08"/>
-                <joint name="joint5" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-1.22 1.22" damping="100"/>
-                <geom type="mesh" mesh="link5" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                <body name="link6" pos="8.8259E-05 -0.091 0" quat="0.7071054825112363 0.7071080798594735 0.0 0.0">
-                  <inertial pos="-0.00008982 0.00000814 -0.00200000" quat="0.44334712 -0.00000000 0.00000000 0.89635001" mass="0.00699090" diaginertia="1.00000000e-08 1.00000000e-08 1.00000000e-08"/>
-                  <joint name="joint6" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-2.0944 2.0944" damping="100"/>
-                  <geom type="mesh" mesh="link6" pos="0 0 0" rgba="0.898039215686275 0.917647058823529 0.929411764705882 1"/>
-                  <body name="gripper_base" pos="0 0 0" quat="1.0 0.0 0.0 0.0">
-                    <inertial pos="-0.00018395 0.00007800 0.03219230" quat="0.46285256 -0.53584520 -0.53119212 0.46526592" mass="0.45000000" diaginertia="3.00798253e-08 5.34059295e-08 5.73369283e-08"/>
-                    <geom type="mesh" mesh="gripper_base" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                    <body name="link7" pos="0 0 0.1358" quat="0.7071054825112363 0.7071080798594735 0.0 0.0">
-                      <inertial pos="0.00065033 -0.04919663 0.00971924" quat="0.08837270 -0.00000000 -0.08429442 -0.99251434" mass="0.02500000" diaginertia="1.00000000e-08 1.00000000e-08 1.00000000e-08"/>
-                      <joint name="joint7" type="slide" pos="0 0 0" axis="0 0 1" limited="true" range="0 0.035" damping="100"/>
-                      <geom type="mesh" mesh="link7" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                    </body>
-                    <body name="link8" pos="0 0 0.1358" quat="-2.5973434669646147e-06 -2.597353007557415e-06 -0.7071080798547033 -0.707105482506466">
-                      <inertial pos="0.00065033 -0.04919663 0.00971924" quat="0.07408494 -0.68980544 -0.71702476 0.06749350" mass="0.02500000" diaginertia="1.00000000e-08 1.00000000e-08 1.00000000e-08"/>
-                      <joint name="joint8" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.035 0" damping="100"/>
-                      <geom type="mesh" mesh="link8" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
-                    </body>
-                  </body>
+    <body name="left_base_link" pos="0 0 0" quat="1 0 0 0">
+      <inertial pos="-0.00480206 0.00002540 0.04147714" quat="0.49612377 0.79766720 0.34280646 0.00848377" mass="0.01851531" diaginertia="1.00000000e-08 1.00000000e-08 1.00000000e-08"/>
+      <geom type="mesh" mesh="base_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+      <body name="left_frame_link" pos="0 0 0" quat="1.0 0.0 0.0 0.0">
+        <inertial pos="-0.00131149794330205 -0.0030198285167925 0.0400373579826716" mass="0.046182728238364" diaginertia="0.00004811 0.00006831 0.00002825"/>
+        <geom type="mesh" mesh="frame_link" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+        <body name="left_t_Link" pos="-0.030369 -0.017851 0.02455" quat="0.582794276822317 -0.41036339685554557 -0.39720646224085976 0.5780828139448803">
+          <inertial pos="-3.08384568642236E-05 0.000240555422902813 0.0120463125269918" mass="0.00253406620111725" diaginertia="0.00000019 0.00000020 0.00000011"/>
+          <joint name="left_thumb_cmc_abd" type="hinge" pos="0 0 0" axis="0 -1 0" limited="true" range="0 1.7453" damping="100"/>
+          <geom type="mesh" mesh="t_Link" pos="0 0 0" rgba="1 0.792156862745098 0 1"/>
+          <body name="left_thumb_metacarpol_link" pos="-0.00075443 -0.0051626 0.019636" quat="0.9868182959172 0.07970750928213338 0.046676648946881484 -0.1328821065839999">
+            <inertial pos="2.09657379764625E-05 0.00427828067153943 0.0144687529126539" mass="0.00864256984122037" diaginertia="0.00000136 0.00000145 0.00000060"/>
+            <joint name="left_thumb_cmc_flex" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.4000" damping="100"/>
+            <geom type="mesh" mesh="thumb_metacarpol_link" pos="0 0 0" rgba="0.643137254901961 0.4 0 1"/>
+            <body name="left_thumb_proximal_link" pos="0 0.0095039 0.034725" quat="1.0 0.0 0.0 0.0">
+              <inertial pos="-1.2536117961065E-07 -0.00656432330561672 0.0129652144635366" mass="0.0046151063369737" diaginertia="0.00000044 0.00000059 0.00000037"/>
+              <joint name="left_thumb_mcp" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.2217" damping="100"/>
+              <geom type="mesh" mesh="thumb_proximal_link" pos="0 0 0" rgba="0 0.6 1 1"/>
+              <body name="left_thumb_distal_link" pos="0 -0.009767 0.028366" quat="0.9848073927247508 0.17365022094624097 0.0 0.0">
+                <inertial pos="-2.76382415433096E-06 -0.00244686822878971 0.0102409693191272" mass="0.00364556544568981" diaginertia="0.00000028 0.00000029 0.00000014"/>
+                <joint name="left_thumb_ip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+                <geom type="mesh" mesh="thumb_distal_link" pos="0 0 0" rgba="0.4 0.2 0.8 1"/>
+                <body name="left_thumb_tip_link" pos="0 0.0023115858897875 0.029876683808909" quat="1.0 0.0 0.0 0.0">
+                  <inertial pos="-2.52063887179466E-07 -0.00771439512482892 -0.0101737551441116" mass="0.00296168286968343" diaginertia="0.00000012 0.00000018 0.00000014"/>
+                  <geom type="mesh" mesh="thumb_tip_link" pos="0 0 0" rgba="1 0 1 1"/>
                 </body>
               </body>
             </body>
           </body>
         </body>
+        <body name="left_index_f_link" pos="-0.029596 -0.003707 0.1018" quat="0.9998476915353435 0.0 0.0 0.017452613885739623">
+          <inertial pos="2.08166817117217E-17 7.68523219621002E-05 0.000988451431081809" mass="0.000272618505177845" diaginertia="0.00000000 0.00000000 0.00000000"/>
+          <joint name="left_index_mcp_abd" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-0.2618 0.2618" damping="100"/>
+          <geom type="mesh" mesh="index_f_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+          <body name="left_index_proximal_link" pos="0 -0.0004 0.0027" quat="0.9999590354535604 0.009051376402798425 0.0 0.0">
+            <inertial pos="1.13828329435794E-07 -0.00246889103565057 0.020518447772934" mass="0.00599684399920735" diaginertia="0.00000081 0.00000083 0.00000018"/>
+            <joint name="left_index_mcp_flex" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+            <geom type="mesh" mesh="index_proximal_link" pos="0 0 0" rgba="1 0.4 0.4 1"/>
+            <body name="left_index_middle_link" pos="0 -0.000704692474492747 0.0430188505587838" quat="1.0 0.0 0.0 0.0">
+              <inertial pos="1.60194246211914E-07 -0.00107010034902085 0.0096497999202657" mass="0.0022951205465851" diaginertia="0.00000013 0.00000015 0.00000007"/>
+              <joint name="left_index_pip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+              <geom type="mesh" mesh="index_middle_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+              <body name="left_index_distal_link" pos="0 0.000383952941619931 0.0219966492934402" quat="0.9999990500262088 -0.0013783855338443886 0.0 0.0">
+                <inertial pos="1.05220411560775E-07 -0.00129401872799453 0.00673885761500959" mass="0.00137698971613404" diaginertia="0.00000007 0.00000006 0.00000003"/>
+                <joint name="left_index_dip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+                <geom type="mesh" mesh="index_distal_link" pos="0 0 0" rgba="0 1 1 1"/>
+                <body name="left_index_tip_link" pos="0 0.00329764978643327 0.0249542326219998" quat="1.0 0.0 0.0 0.0">
+                  <inertial pos="-2.15232385664121E-08 -0.00637900676058869 -0.00961579748883559" mass="0.00170572301090788" diaginertia="0.00000006 0.00000007 0.00000004"/>
+                  <geom type="mesh" mesh="index_tip_link" pos="0 0 0" rgba="1 0 1 1"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="left_middle_f_link" pos="-0.00849999999978476 -0.0026 0.1023" quat="1.0 0.0 0.0 0.0">
+          <inertial pos="-7.88065690459553E-14 7.68523219620965E-05 0.000988451431081805" mass="0.000272618505177845" diaginertia="0.00000000 0.00000000 0.00000000"/>
+          <joint name="left_middle_mcp_abd" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-0.2618 0.2618" damping="100"/>
+          <geom type="mesh" mesh="middle_f_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+          <body name="left_middle_proximal_link" pos="0 -0.0004 0.0027" quat="0.9999590354535604 0.009051376402798425 0.0 0.0">
+            <inertial pos="1.10516959198867E-07 -0.00246889269657067 0.0205184424976948" mass="0.00599684490093027" diaginertia="0.00000081 0.00000083 0.00000018"/>
+            <joint name="left_middle_mcp_flex" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+            <geom type="mesh" mesh="middle_proximal_link" pos="0 0 0" rgba="1 0.4 0.4 1"/>
+            <body name="left_middle_middle_link" pos="0 -0.000704692474492743 0.0430188505587839" quat="1.0 0.0 0.0 0.0">
+              <inertial pos="1.59243666374961E-07 -0.00107010387627971 0.00964979404496044" mass="0.00229512127249161" diaginertia="0.00000013 0.00000015 0.00000007"/>
+              <joint name="left_middle_pip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+              <geom type="mesh" mesh="middle_middle_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+              <body name="left_middle_distal_link" pos="0 0.000383952941619943 0.0219966492934408" quat="1.0 0.0 0.0 0.0">
+                <inertial pos="1.02169429722889E-07 -0.00127543394509335 0.00674239569351925" mass="0.00137698810312193" diaginertia="0.00000007 0.00000006 0.00000003"/>
+                <joint name="left_middle_dip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+                <geom type="mesh" mesh="middle_distal_link" pos="0 0 0" rgba="0 1 1 1"/>
+                <body name="left_middle_tip_link" pos="0 0.00336643029687281 0.0249450469416905" quat="0.9999990500262088 -0.0013783855338443936 0.0 0.0">
+                  <inertial pos="-2.21758799617848E-08 -0.00637900074967735 -0.0096157879628592" mass="0.00170572337119633" diaginertia="0.00000006 0.00000007 0.00000004"/>
+                  <geom type="mesh" mesh="middle_tip_link" pos="0 0 0" rgba="1 0 1 1"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="left_ring_f_link" pos="0.0125958919149416 -0.00370704707588761 0.101804549659765" quat="0.9998476951563912 0.0 0.0 -0.017452406437288265">
+          <inertial pos="-3.46944695195361E-18 7.68523219621006E-05 0.000988451431081818" mass="0.000272618505177846" diaginertia="0.00000000 0.00000000 0.00000000"/>
+          <joint name="left_ring_mcp_abd" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-0.2618 0.2618" damping="100"/>
+          <geom type="mesh" mesh="ring_f_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+          <body name="left_ring_proximal_link" pos="0 -0.0004 0.0027" quat="0.9999590354535604 0.009051376402798425 0.0 0.0">
+            <inertial pos="1.11753913473872E-07 -0.00246889439302628 0.0205184490965408" mass="0.00599684572639037" diaginertia="0.00000081 0.00000083 0.00000018"/>
+            <joint name="left_ring_mcp_flex" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+            <geom type="mesh" mesh="ring_proximal_link" pos="0 0 0" rgba="1 0.4 0.4 1"/>
+            <body name="left_ring_middle_link" pos="0 -0.000704692474492746 0.0430188505587838" quat="1.0 0.0 0.0 0.0">
+              <inertial pos="1.53121697699793E-07 -0.00107010135311555 0.00964979875932005" mass="0.00229512027057487" diaginertia="0.00000013 0.00000015 0.00000007"/>
+              <joint name="left_ring_pip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+              <geom type="mesh" mesh="ring_middle_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+              <body name="left_ring_distal_link" pos="0 0.000383952941619927 0.0219966492934402" quat="1.0 0.0 0.0 0.0">
+                <inertial pos="1.01194071427946E-07 -0.00127543439904158 0.00674239654401408" mass="0.00137698874426085" diaginertia="0.00000007 0.00000006 0.00000003"/>
+                <joint name="left_ring_dip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+                <geom type="mesh" mesh="ring_distal_link" pos="0 0 0" rgba="0 1 1 1"/>
+                <body name="left_ring_tip_link" pos="0 0.00336643029687281 0.0249450469416905" quat="0.9999990500262088 -0.0013783855338443836 0.0 0.0">
+                  <inertial pos="-2.41833004420433E-08 -0.00637900684450665 -0.00961579748883352" mass="0.00170572318511849" diaginertia="0.00000006 0.00000007 0.00000004"/>
+                  <geom type="mesh" mesh="ring_tip_link" pos="0 0 0" rgba="1 0 1 1"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="left_pinky_f_link" pos="0.0332259975438891 -0.00595751087982225 0.0890434920430963" quat="0.9993884985686398 0.0 0.0 -0.03496611114665088">
+          <inertial pos="0 7.68523219621029E-05 0.000988451431081847" mass="0.000272618505177846" diaginertia="0.00000000 0.00000000 0.00000000"/>
+          <joint name="left_pinky_mcp_abd" type="hinge" pos="0 0 0" axis="0 1 0" limited="true" range="-0.2618 0.2618" damping="100"/>
+          <geom type="mesh" mesh="pinky_f_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+          <body name="left_pinky_proximal_link" pos="0 -0.0004 0.0027" quat="0.9999590354535604 0.009051376402798425 0.0 0.0">
+            <inertial pos="1.17350728766341E-07 -0.00246889271692932 0.0205184742182268" mass="0.00599683372090147" diaginertia="0.00000081 0.00000083 0.00000018"/>
+            <joint name="left_pinky_mcp_flex" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+            <geom type="mesh" mesh="pinky_proximal_link" pos="0 0 0" rgba="1 0.4 0.4 1"/>
+            <body name="left_pinky_middle_link" pos="0 -0.000704692474492746 0.0430188505587839" quat="1.0860612277657784e-29 1.6155445744325867e-15 1.0 6.722570487708307e-15">
+              <inertial pos="-1.43130021050542E-07 -0.001070098391283 -0.00964980529801608" mass="0.00229511880358933" diaginertia="0.00000013 0.00000015 0.00000007"/>
+              <joint name="left_pinky_pip" type="hinge" pos="0 0 0" axis="-1 0 0" limited="true" range="0 1.5708" damping="100"/>
+              <geom type="mesh" mesh="pinky_middle_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+              <body name="left_pinky_distal_link" pos="0 0.000383952941619935 -0.0219966492934401" quat="2.2268432706792795e-18 1.6155430397075825e-15 0.9999990500262088 0.0013783855338447679">
+                <inertial pos="1.00567220752412E-07 -0.00129401748541132 0.00673885609225866" mass="0.00137698956250512" diaginertia="0.00000007 0.00000006 0.00000003"/>
+                <joint name="left_pinky_dip" type="hinge" pos="0 0 0" axis="1 0 0" limited="true" range="0 1.5708" damping="100"/>
+                <geom type="mesh" mesh="pinky_distal_link" pos="0 0 0" rgba="0 1 1 1"/>
+                <body name="left_pinky_tip_link" pos="0 0.00329764978643327 0.024954232622" quat="1.0 0.0 0.0 0.0">
+                  <inertial pos="-2.87954898120502E-08 -0.00637901106985847 -0.00961580393346456" mass="0.00170572327227634" diaginertia="0.00000006 0.00000007 0.00000004"/>
+                  <geom type="mesh" mesh="pinky_tip_link" pos="0 0 0" rgba="1 0 1 1"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="left_index_prismatic1_link" pos="-0.0344747428096294 -0.00726357886481495 0.0945992626510313" quat="0.9998476951563912 0.0 0.0 0.017452406437288466">
+          <inertial pos="-9.39276351141771E-10 -0.00241296040019414 -0.00240064563958557" mass="0.000394369846861351" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_index_prismatic1" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="index_prismatic1_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_index_prismatic2_link" pos="-0.0244808345394687 -0.00691458389779098 0.0945992626518286" quat="0.9998476951563912 0.0 0.0 0.017452406437288466">
+          <inertial pos="-9.39276354611218E-10 -0.00241296040019414 -0.00240064563958558" mass="0.000394369846861351" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_index_prismatic2" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="index_prismatic2_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_middle_prismatic1_link" pos="-0.0134999999999849 -0.00598409580514471 0.0950947129912662" quat="1.0 0.0 0.0 0.0">
+          <inertial pos="-9.3927632078411E-10 -0.00241296040019414 -0.00240064563958555" mass="0.000394369846861353" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_middle_prismatic1" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="middle_prismatic1_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_middle_prismatic2_link" pos="-0.00350000000001516 -0.00598409580514471 0.0950947129920634" quat="1.0 0.0 0.0 0.0">
+          <inertial pos="-9.39276312977855E-10 -0.00241296040019414 -0.00240064563958558" mass="0.000394369846861354" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_middle_prismatic2" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="middle_prismatic2_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_ring_prismatic1_link" pos="0.00748083453946868 -0.00691458389779104 0.0945992626510313" quat="0.9998476951563913 0.0 0.0 -0.017452406437281815">
+          <inertial pos="-9.39276316447302E-10 -0.00241296040019417 -0.00240064563958556" mass="0.000394369846861354" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_ring_prismatic1" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="ring_prismatic1_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_ring_prismatic2_link" pos="0.0174747428096295 -0.00726357886481505 0.0945992626518286" quat="0.9998476951563913 0.0 0.0 -0.017452406437281815">
+          <inertial pos="-9.39276413591816E-10 -0.00241296040019415 -0.00240064563958556" mass="0.000394369846861355" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_ring_prismatic2" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="ring_prismatic2_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_pinky_prismatic1_link" pos="0.0280017112093865 -0.00898388440491384 0.0818382050343625" quat="0.99938849856864 0.0 0.0 -0.034966111146644434">
+          <inertial pos="-9.3927633032509E-10 -0.00241296040019416 -0.00240064563958556" mass="0.000394369846861354" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_pinky_prismatic1" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="pinky_prismatic1_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
+        <body name="left_pinky_prismatic2_link" pos="0.0379772586307819 -0.00968277899130439 0.0818382050351598" quat="0.99938849856864 0.0 0.0 -0.034966111146644434">
+          <inertial pos="-9.3927633032509E-10 -0.00241296040019416 -0.00240064563958556" mass="0.000394369846861356" diaginertia="0.00000001 0.00000000 0.00000001"/>
+          <joint name="left_pinky_prismatic2" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="0 0.017" damping="100"/>
+          <geom type="mesh" mesh="pinky_prismatic2_link" pos="0 0 0" rgba="0.611764705882353 0.658823529411765 0.670588235294118 1"/>
+        </body>
       </body>
     </body>
   </worldbody>
   <actuator>
-    <position name="joint1" joint="joint1" ctrllimited="true" ctrlrange="-2.618 2.168" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint2" joint="joint2" ctrllimited="true" ctrlrange="0.0 3.14" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint3" joint="joint3" ctrllimited="true" ctrlrange="-2.967 0.0" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint4" joint="joint4" ctrllimited="true" ctrlrange="-1.745 1.745" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint5" joint="joint5" ctrllimited="true" ctrlrange="-1.22 1.22" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint6" joint="joint6" ctrllimited="true" ctrlrange="-2.0944 2.0944" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint7" joint="joint7" ctrllimited="true" ctrlrange="0.0 0.035" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
-    <position name="joint8" joint="joint8" ctrllimited="true" ctrlrange="-0.035 0.0" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_thumb_cmc_abd" joint="left_thumb_cmc_abd" ctrllimited="true" ctrlrange="0.0 1.7453" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_thumb_cmc_flex" joint="left_thumb_cmc_flex" ctrllimited="true" ctrlrange="0.0 1.4" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_thumb_mcp" joint="left_thumb_mcp" ctrllimited="true" ctrlrange="0.0 1.2217" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_thumb_ip" joint="left_thumb_ip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_index_mcp_abd" joint="left_index_mcp_abd" ctrllimited="true" ctrlrange="-0.2618 0.2618" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_index_mcp_flex" joint="left_index_mcp_flex" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_index_pip" joint="left_index_pip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_index_dip" joint="left_index_dip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_middle_mcp_abd" joint="left_middle_mcp_abd" ctrllimited="true" ctrlrange="-0.2618 0.2618" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_middle_mcp_flex" joint="left_middle_mcp_flex" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_middle_pip" joint="left_middle_pip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_middle_dip" joint="left_middle_dip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_ring_mcp_abd" joint="left_ring_mcp_abd" ctrllimited="true" ctrlrange="-0.2618 0.2618" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_ring_mcp_flex" joint="left_ring_mcp_flex" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_ring_pip" joint="left_ring_pip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_ring_dip" joint="left_ring_dip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_pinky_mcp_abd" joint="left_pinky_mcp_abd" ctrllimited="true" ctrlrange="-0.2618 0.2618" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_pinky_mcp_flex" joint="left_pinky_mcp_flex" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_pinky_pip" joint="left_pinky_pip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_pinky_dip" joint="left_pinky_dip" ctrllimited="true" ctrlrange="0.0 1.5708" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_index_prismatic1" joint="left_index_prismatic1" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_index_prismatic2" joint="left_index_prismatic2" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_middle_prismatic1" joint="left_middle_prismatic1" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_middle_prismatic2" joint="left_middle_prismatic2" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_ring_prismatic1" joint="left_ring_prismatic1" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_ring_prismatic2" joint="left_ring_prismatic2" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_pinky_prismatic1" joint="left_pinky_prismatic1" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
+    <position name="left_pinky_prismatic2" joint="left_pinky_prismatic2" ctrllimited="true" ctrlrange="0.0 0.017" kp="1000" forcelimited="true" forcerange="-1000 1000" user="1"/>
   </actuator>
 </mujoco>
