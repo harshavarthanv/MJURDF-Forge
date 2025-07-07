@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: urdf-to-mjcf
+Version: 0.1.0
+Summary: Convert URDF robot descriptions to MuJoCo MJCF XML format
+Author: Harshavarthan Varatharajan
+Requires-Python: >=3.7

@@ -1,0 +1,2 @@
+[console_scripts]
+urdf_to_mjcf = urdf_to_mjcf.cli:main

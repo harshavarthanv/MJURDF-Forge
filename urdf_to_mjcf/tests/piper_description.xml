@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<mujoco model="piper_description">
+  <compiler angle="radian"/>
+  <option gravity="0 0 -9.81"/>
+  <asset>
+    <mesh name="base_link" file="base_link.STL"/>
+    <mesh name="link1" file="link1.STL"/>
+    <mesh name="link2" file="link2.STL"/>
+    <mesh name="link3" file="link3.STL"/>
+    <mesh name="link4" file="link4.STL"/>
+    <mesh name="link5" file="link5.STL"/>
+    <mesh name="link6" file="link6.STL"/>
+    <mesh name="gripper_base" file="gripper_base.STL"/>
+    <mesh name="link7" file="link7.STL"/>
+    <mesh name="link8" file="link8.STL"/>
+  </asset>
+  <worldbody>
+    <body name="base_link" pos="0 0 0">
+      <inertial pos="-0.00473641164191482 2.56829134630247E-05 0.041451518036016" mass="1.02" diaginertia="0.00267433 0.00282612 0.00089624"/>
+      <geom type="mesh" mesh="base_link" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+      <body name="link1" pos="0 0 0.123">
+        <inertial pos="0.000121504734057468 0.000104632162460536 -0.00438597309559853" mass="0.71" diaginertia="0.00048916 0.00040472 0.00043982"/>
+        <geom type="mesh" mesh="link1" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+        <joint name="joint1" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-2.618 2.168"/>
+        <body name="link2" pos="0 0 0">
+          <inertial pos="0.198666145229743 -0.010926924140076 0.00142121714502687" mass="1.17" diaginertia="0.00116918 0.06785384 0.06774489"/>
+          <geom type="mesh" mesh="link2" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+          <joint name="joint2" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="0 3.14"/>
+          <body name="link3" pos="0.28503 0 0">
+            <inertial pos="-0.0202737662122021 -0.133914995944595 -0.000458682652737356" mass="0.5" diaginertia="0.01361711 0.00045024 0.01380322"/>
+            <geom type="mesh" mesh="link3" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+            <joint name="joint3" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-2.967 0"/>
+            <body name="link4" pos="-0.021984 -0.25075 0">
+              <inertial pos="-9.66635791618542E-05 0.000876064475651083 -0.00496880904640868" mass="0.38" diaginertia="0.00018501 0.00018965 0.00015484"/>
+              <geom type="mesh" mesh="link4" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+              <joint name="joint4" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-1.745 1.745"/>
+              <body name="link5" pos="0 0 0">
+                <inertial pos="-4.10554118924211E-05 -0.0566486692356075 -0.0037205791677906" mass="0.383" diaginertia="0.00166169 0.00018510 0.00164321"/>
+                <geom type="mesh" mesh="link5" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                <joint name="joint5" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-1.22 1.22"/>
+                <body name="link6" pos="8.8259E-05 -0.091 0">
+                  <inertial pos="-8.82590762930069E-05 9.0598378529832E-06 -0.002" mass="0.00699089613564366" diaginertia="0.00000057 0.00000057 0.00000107"/>
+                  <geom type="mesh" mesh="link6" pos="0 0 0" rgba="0.898039215686275 0.917647058823529 0.929411764705882 1"/>
+                  <joint name="joint6" type="hinge" pos="0 0 0" axis="0 0 1" limited="true" range="-2.0944 2.0944"/>
+                  <body name="gripper_base" pos="0 0 0">
+                    <inertial pos="-0.000183807162235591 8.05033155577911E-05 0.0321436689908876" mass="0.45" diaginertia="0.00092934 0.00071447 0.00039442"/>
+                    <geom type="mesh" mesh="gripper_base" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                    <joint name="joint6_to_gripper_base" type="free" pos="0 0 0" axis="0 0 1" limited="true" range="0 0"/>
+                    <body name="link7" pos="0 0 0.1358">
+                      <inertial pos="0.00065123185041968 -0.0491929869131989 0.00972258769184025" mass="0.025" diaginertia="0.00007147 -0.00000113 0.00007259"/>
+                      <geom type="mesh" mesh="link7" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                      <joint name="joint7" type="slide" pos="0 0 0" axis="0 0 1" limited="true" range="0 0.035"/>
+                    </body>
+                    <body name="link8" pos="0 0 0.1358">
+                      <inertial pos="0.000651231850419722 -0.0491929869131991 0.00972258769184024" mass="0.025" diaginertia="0.00007147 -0.00000113 0.00007259"/>
+                      <geom type="mesh" mesh="link8" pos="0 0 0" rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+                      <joint name="joint8" type="slide" pos="0 0 0" axis="0 0 -1" limited="true" range="-0.035 0"/>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>

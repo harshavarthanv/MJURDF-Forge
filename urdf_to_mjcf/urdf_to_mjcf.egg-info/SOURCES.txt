@@ -1,0 +1,6 @@
+setup.py
+urdf_to_mjcf.egg-info/PKG-INFO
+urdf_to_mjcf.egg-info/SOURCES.txt
+urdf_to_mjcf.egg-info/dependency_links.txt
+urdf_to_mjcf.egg-info/entry_points.txt
+urdf_to_mjcf.egg-info/top_level.txt
