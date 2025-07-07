@@ -5,15 +5,27 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import trimesh
 import numpy as np
+import argparse
+import logging
 from scipy.spatial.transform import Rotation as R
 
 
 def parse_urdf(urdf_path):
+    """Parse the URDF XML file and return the root element.
+    Args:        urdf_path: Path to the URDF file.
+    Returns:        root: XML root element of the URDF.
+    """
     tree = ET.parse(urdf_path)
     return tree.getroot()
 
 
 def build_urdf_maps(urdf_root):
+    """Build maps of links, joints, and their relationships from the URDF XML.
+    Returns:
+        links: dict of link names to XML elements
+        joints: dict of joint names to their type and limits
+        children: dict mapping parent link names to lists of child link names
+    """
     links, joints, children = {}, {}, {}
     for link in urdf_root.findall("link"):
         links[link.attrib["name"]] = link
@@ -46,6 +58,9 @@ def build_urdf_maps(urdf_root):
 
 
 def find_root_link(links, joints):
+    """Find the root link in the URDF structure.
+    The root link is defined as a link that is not a child of any other link.
+    """
     all_links = set(links.keys())
     child_links = set(joints.keys())
     roots = list(all_links - child_links)
@@ -53,6 +68,10 @@ def find_root_link(links, joints):
 
 
 def enforce_valid_inertia(ixx, iyy, izz):
+    """
+    Ensure the inertia values are valid and non-negative.
+    If any value is negative or zero, adjust it to be slightly larger than the sum of the other two.
+    """
     ixx, iyy, izz = float(ixx), float(iyy), float(izz)
     eps = 1e-8
     if ixx + iyy < izz:
@@ -65,6 +84,15 @@ def enforce_valid_inertia(ixx, iyy, izz):
 
 
 def compute_inertial_from_stl(stl_path: str, target_mass: float):
+    """Compute the center of mass, inertia tensor, and quaternion from an STL file.
+    Args:
+        stl_path: Path to the STL file.
+        target_mass: Desired mass for the object.
+    Returns:
+        pos_str: Position string in the format "x y z".
+        quat_str: Quaternion string in the format "x y z w".
+        diaginertia_str: Diagonal inertia tensor string in the format "ixx iyy izz".
+    """
     mesh = trimesh.load(stl_path)
     center_of_mass = mesh.center_mass
     inertia_tensor = mesh.moment_inertia
@@ -84,6 +112,16 @@ def compute_inertial_from_stl(stl_path: str, target_mass: float):
 
 
 def build_mjcf_body(link_name, links, joints, children):
+    """Recursively build the MJCF body element for a given link
+    Args:
+        link_name: Name of the link to build.
+        links: Dictionary of link names to their XML elements.
+        joints: Dictionary of joint names to their info.
+        children: Dictionary mapping parent link names to lists of child link names.
+    Returns:
+        body: XML Element representing the MJCF body for the link.
+    """
+    # Check if the link exists in the URDF links
     if link_name not in links:
         print(f"[ERROR] Link '{link_name}' not found in URDF links.")
         return None
@@ -255,6 +293,15 @@ def build_mjcf_body(link_name, links, joints, children):
 
 
 def enforce_minimum_inertial_values(mass, diaginertia, min_mass=1e-5, min_inertia=1e-8):
+    """Ensure mass and inertia values are above minimum thresholds.
+    Args:
+        mass: The mass value to check.
+        diaginertia: List of inertia values [ixx, iyy, izz].
+        min_mass: Minimum allowed mass.
+        min_inertia: Minimum allowed inertia value for each component.
+    Returns:
+        Tuple of (mass, diaginertia_str) where diaginertia_str is a space-separated string of inertia values.
+    """
     # Ensure mass is float
     mass = float(mass)
     mass = max(mass, min_mass)
@@ -267,6 +314,11 @@ def enforce_minimum_inertial_values(mass, diaginertia, min_mass=1e-5, min_inerti
 
 
 def add_actuators_auto(mjcf_root, joints):
+    """Automatically add actuators for all actuated joints in the MJCF model.
+    Args:
+        mjcf_root: The root element of the MJCF XML.
+        joints: Dictionary of joint names to their info.
+    """
     print("[INFO] Adding actuators for all actuated joints...")
     # Create actuator section
     print(f"the joints are: {joints}")
@@ -302,6 +354,13 @@ def add_actuators_auto(mjcf_root, joints):
 
 
 def convert_urdf_to_mjcf(urdf_path: str, output_path: str) -> None:
+    """Convert a URDF file to MJCF format.
+    Args:
+        urdf_path: Path to the input URDF file.
+        output_path: Path to save the output MJCF file.
+    Raises:
+        RuntimeError: If the URDF cannot be parsed or if the root link cannot be determined.
+    """
     urdf_root = parse_urdf(urdf_path)
     links, joints, children = build_urdf_maps(urdf_root)
     root_link = find_root_link(links, joints)
@@ -344,4 +403,17 @@ def convert_urdf_to_mjcf(urdf_path: str, output_path: str) -> None:
     with open(output_path, "w") as f:
         f.write(pretty_xml)
 
-    print(f"MJCF written to: {output_path}")
+    logging.info(f"MJCF written to: {output_path}")
+
+
+def main():
+    """Command-line entry point."""
+    parser = argparse.ArgumentParser(description="Convert URDF to MJCF (MuJoCo XML)")
+    parser.add_argument("urdf", type=str, help="Path to input URDF file")
+    parser.add_argument("output", type=str, help="Path to output MJCF file")
+    args = parser.parse_args()
+    convert_urdf_to_mjcf(args.urdf, args.output)
+
+
+if __name__ == "__main__":
+    main()

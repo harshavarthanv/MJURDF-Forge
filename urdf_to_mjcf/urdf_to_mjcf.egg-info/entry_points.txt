@@ -1,2 +1,3 @@
 [console_scripts]
+mjcf_viewer = urdf_to_mjcf.launch_mujoco:main
 urdf_to_mjcf = urdf_to_mjcf.cli:main
